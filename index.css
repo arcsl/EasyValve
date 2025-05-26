@@ -1,0 +1,18 @@
+.input,
+.button {
+    width: 150px;
+    height: 50px;
+}
+
+.section {
+    margin-bottom: 40px;
+}
+
+table {
+    width: 100%;
+}
+
+th,
+td {
+    text-align: center;
+}
