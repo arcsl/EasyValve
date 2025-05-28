@@ -95,12 +95,12 @@ function onSubtipoChange() {
 	const calcularDatos = (valvula) => {
 		const pValvula = 10 * Math.pow(caudalInstalacion / valvula.kvs, 2);
 		const autoridad = pValvula / (pValvula + perdidaInstalacion);
-		return { modelo: valvula.modelo, pValvula, autoridad };
+		return { modelo: valvula.modelo, kvs: valvula.kvs, pValvula, autoridad };
 	};
 
 	const sugeridas = [inferior, seleccionada, superior].filter(Boolean).map(calcularDatos);
 
-	sugeridas.forEach(({ modelo, pValvula, autoridad }) => {
+	sugeridas.forEach(({ modelo, kvs, pValvula, autoridad }) => {
 		let color = "w3-text-red", calidad = "Mala";
 
 		if (autoridad >= 0.4 && autoridad <= 0.6) {
@@ -114,6 +114,7 @@ function onSubtipoChange() {
 		tabla.innerHTML += `
       <tr>
         <td>${modelo}</td>
+        <td>${kvs}</td>
         <td>${pValvula.toFixed(2)}</td>
         <td class="${color}">${autoridad.toFixed(2)} - ${calidad}</td>
       </tr>

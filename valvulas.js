@@ -10,8 +10,8 @@ const valvulas = {
         ],
         "asiento": [
             { modelo: "VVF32.15", kvs: 4 },
-            { modelo: "VVF32.25", kvs: 10 },
             { modelo: "VVF32.25", kvs: 6.3 },
+            { modelo: "VVF32.25", kvs: 10 },
             { modelo: "VVF32.40", kvs: 16 },
             { modelo: "VVF32.40", kvs: 25 },
             { modelo: "VVF32.50", kvs: 40 },
@@ -40,10 +40,10 @@ const valvulas = {
             { modelo: "VBI61.40", kvs: 25 },
             { modelo: "VBI61.50", kvs: 40 }
         ],
-        "asiento": [
+        "asiento bridas": [
             { modelo: "VXF32.15", kvs: 4 },
-            { modelo: "VXF32.25", kvs: 10 },
             { modelo: "VXF32.25", kvs: 6.3 },
+            { modelo: "VXF32.25", kvs: 10 },
             { modelo: "VXF32.40", kvs: 16 },
             { modelo: "VXF32.40", kvs: 25 },
             { modelo: "VXF32.50", kvs: 40 },
@@ -53,6 +53,16 @@ const valvulas = {
             { modelo: "VXF32.125", kvs: 250 },
             { modelo: "VXF32.150", kvs: 400 }
         ],
+        "asiento roscadas": [
+            { modelo: "VXP45.10", kvs: 1 },
+            { modelo: "VXP45.10", kvs: 1.6 },
+            { modelo: "VXP45.15", kvs: 2.5 },
+            { modelo: "VXP45.20", kvs: 4 },
+            { modelo: "VXP45.25", kvs: 6.3 },
+            { modelo: "VXP45.25", kvs: 10 },
+            { modelo: "VXP45.32", kvs: 16 },
+            { modelo: "VXP45.40", kvs: 25 },
+        ],        
         "sector": [
             { modelo: "VBF21.40", kvs: 25 },
             { modelo: "VBF21.50", kvs: 40 },

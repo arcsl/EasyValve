@@ -9,7 +9,12 @@
 }
 
 table {
-    width: 100%;
+    width: 1000px !important;
+}
+
+#cabeceratabla label {
+    width: 200px !important;
+    display: inline-block;
 }
 
 th,
