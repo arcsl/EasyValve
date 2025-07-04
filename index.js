@@ -1,29 +1,84 @@
-let kvsIdeal = null;
-let caudalInstalacion = null;
-let perdidaInstalacion = null;
+const caudalInput = document.getElementById("caudalInput");
+const perdidaInput = document.getElementById("perdidaInput");
+const kvsInput = document.getElementById("kvsInput");
+const selectorTipo = document.getElementById("selectorTipo");
+const selectorSubtipo = document.getElementById("selectorSubtipo");
+const tabla = document.getElementById("tablaSugerenciasBody");
+
+let selecCalculo = "kvs";
+let caudal = null;
+let perdida = null;
+let kvs = null;
 
 if (location.hostname === "arcsl.github.io") {
-    window.location.replace("https://easyvalve.arcsl.com");
+	window.location.replace("https://easyvalve.arcsl.com");
 }
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    document.title = "Easy Valve";
+	document.title = "Easy Valve";
 
-	const selectorTipo = document.getElementById("selectorTipo");
 	selectorTipo.innerHTML = Object.keys(valvulas)
 		.map(tipo => `<option value="${tipo}">${tipo}</option>`)
 		.join("");
 	actualizarSubtipo();
 
+	[caudalInput, perdidaInput, kvsInput].forEach(el => el.addEventListener('change', () => {
+		calcular();
+	}));
+
+	selectorTipo.addEventListener('change', actualizarSubtipo);
+	selectorSubtipo.addEventListener('change', sugerirValvulas);
+
+	document.querySelectorAll('input[name="selecCalculo"]').forEach(radio => {
+
+		radio.addEventListener('change', (event) => {
+			selecCalculo = event.target.value;
+
+			switch (selecCalculo) {
+
+				case "q":
+					caudalInput.classList.add("w3-light-grey");
+					caudalInput.disabled = true;
+					perdidaInput.classList.remove("w3-light-grey");
+					perdidaInput.disabled = false;
+					kvsInput.classList.remove("w3-light-grey");
+					kvsInput.disabled = false;
+					break;
+
+				case "dp":
+					caudalInput.classList.remove("w3-light-grey");
+					caudalInput.disabled = false;
+					perdidaInput.classList.add("w3-light-grey");
+					perdidaInput.disabled = true;
+					kvsInput.classList.remove("w3-light-grey");
+					kvsInput.disabled = false;
+					break;
+
+				case "kvs":
+					caudalInput.classList.remove("w3-light-grey");
+					caudalInput.disabled = false;
+					perdidaInput.classList.remove("w3-light-grey");
+					perdidaInput.disabled = false;
+					kvsInput.classList.add("w3-light-grey");
+					kvsInput.disabled = true;
+					break;
+
+			}
+		});
+	});
+
+	const radioCalculo = document.querySelector(`input[name="selecCalculo"][value="${selecCalculo}"]`)
+	radioCalculo.checked = true;
+	radioCalculo.dispatchEvent(new Event('change', { bubbles: true }));
+
 });
 
 function actualizarSubtipo() {
-	const tipo = document.getElementById("selectorTipo").value;
-	const selectorSubtipo = document.getElementById("selectorSubtipo");
+
+	const tipo = selectorTipo.value;
 
 	selectorSubtipo.innerHTML = "";
-	kvsIdeal = null; // reiniciamos sugerencias si cambia grupo
 
 	if (!valvulas[tipo]) return;
 
@@ -35,57 +90,70 @@ function actualizarSubtipo() {
 		selectorSubtipo.appendChild(option);
 	});
 
-	onSubtipoChange(); // si ya hay un cálculo, actualiza sugerencias
+	sugerirValvulas();
 }
 
-function calcularKvs() {
-	const caudal = parseFloat(document.getElementById("caudalInput").value);
-	const perdida = parseFloat(document.getElementById("perdidaInput").value);
+function calcular() {
 
-	if (!caudal || !perdida) return;
+	caudal = parseFloat(caudalInput.value);
+	perdida = parseFloat(perdidaInput.value);
+	kvs = parseFloat(kvsInput.value);
 
-	const kvs = caudal / Math.sqrt(perdida / 10);
-	kvsIdeal = kvs;
-	caudalInstalacion = caudal;
-	perdidaInstalacion = perdida;
+	let calculo = false;
 
-	document.getElementById("resultadoKvs").textContent = kvs.toFixed(2);
+	switch (selecCalculo) {
+		case "q":
+			calculo = calcularCaudal();
+			break;
 
-	onSubtipoChange(); // actualiza sugerencias tras cálculo
-}
+		case "dp":
+			calculo = calcularPerdida();
+			break;
 
-function calcularPerdida() {
-	const caudal = parseFloat(document.getElementById("caudalPerdidaInput").value);
-	const kvs = parseFloat(document.getElementById("kvsPerdidaInput").value);
-	if (!caudal || !kvs) return;
+		case "kvs":
+			calculo = calcularKvs();
+			break;
+	}
 
-	const perdida = 10 * Math.pow(caudal / kvs, 2);
-	document.getElementById("resultadoPerdida").textContent = perdida.toFixed(2) + " m.c.a";
+	if (calculo) sugerirValvulas();
+
 }
 
 function calcularCaudal() {
-	const perdida = parseFloat(document.getElementById("perdidaCaudalInput").value);
-	const kvs = parseFloat(document.getElementById("kvsCaudalInput").value);
-	if (!perdida || !kvs) return;
-
-	const caudal = kvs * Math.sqrt(perdida / 10);
-	document.getElementById("resultadoCaudal").textContent = caudal.toFixed(2) + " m³/h";
+	if (!perdida || !kvs) return false;
+	caudal = kvs * Math.sqrt(perdida / 10);
+	caudalInput.value = caudal.toFixed(2);
+	return true;
 }
 
-function onSubtipoChange() {
-	const tipo = document.getElementById("selectorTipo").value;
-	const subtipo = document.getElementById("selectorSubtipo").value;
-	const tabla = document.getElementById("tablaSugerenciasBody");
-	tabla.innerHTML = "";
+function calcularPerdida() {
+	if (!caudal || !kvs) return false;
+	perdida = 10 * Math.pow(caudal / kvs, 2);
+	perdidaInput.value = perdida.toFixed(2);
+	return true;
+}
 
-	if (!kvsIdeal || !caudalInstalacion || !perdidaInstalacion) return;
+function calcularKvs() {
+	if (!perdida || !caudal) return;
+	kvs = caudal / Math.sqrt(perdida / 10);
+	kvsInput.value = kvs.toFixed(2);
+	return true;
+}
+
+function sugerirValvulas() {
+
+	const tipo = selectorTipo.value;
+	const subtipo = selectorSubtipo.value;
+	if (!kvs || !caudal || !perdida) return;
 	if (!valvulas[tipo] || !valvulas[tipo][subtipo]) return;
+
+	tabla.innerHTML = "";
 
 	const lista = [...valvulas[tipo][subtipo]].sort((a, b) => a.kvs - b.kvs);
 
 	// Buscar válvula más cercana
 	let seleccionada = lista.reduce((a, b) =>
-		Math.abs(a.kvs - kvsIdeal) < Math.abs(b.kvs - kvsIdeal) ? a : b
+		Math.abs(a.kvs - kvs) < Math.abs(b.kvs - kvs) ? a : b
 	);
 
 	const idx = lista.findIndex(v => v.modelo === seleccionada.modelo);
@@ -93,14 +161,14 @@ function onSubtipoChange() {
 	const superior = idx < lista.length - 1 ? lista[idx + 1] : null;
 
 	const calcularDatos = (valvula) => {
-		const pValvula = 10 * Math.pow(caudalInstalacion / valvula.kvs, 2);
-		const autoridad = pValvula / (pValvula + perdidaInstalacion);
-		return { modelo: valvula.modelo, kvs: valvula.kvs, pValvula, autoridad };
+		const pValvula = 10 * Math.pow(caudal / valvula.kvs, 2);
+		const autoridad = pValvula / (pValvula + perdida);
+		return { modelo: valvula.modelo, pValvula, autoridad };
 	};
 
 	const sugeridas = [inferior, seleccionada, superior].filter(Boolean).map(calcularDatos);
 
-	sugeridas.forEach(({ modelo, kvs, pValvula, autoridad }) => {
+	sugeridas.forEach(({ modelo, pValvula, autoridad }) => {
 		let color = "w3-text-red", calidad = "Mala";
 
 		if (autoridad >= 0.4 && autoridad <= 0.6) {
@@ -113,8 +181,7 @@ function onSubtipoChange() {
 
 		tabla.innerHTML += `
       <tr>
-        <td>${modelo}</td>
-        <td>${kvs}</td>
+        <td><a href="${hit}${modelo}" target="_blank" rel="noopener noreferrer">${modelo}</a></td>
         <td>${pValvula.toFixed(2)}</td>
         <td class="${color}">${autoridad.toFixed(2)} - ${calidad}</td>
       </tr>

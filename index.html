@@ -1,15 +1,14 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 
 <head>
+
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 	<title>Easy Valve - Cálculo de válvulas y pérdida de carga en instalaciones hidráulicas</title>
 	<meta name="description" content="Easy Valve es una herramienta online gratuita para calcular el Kvs, la pérdida de carga o el caudal en válvulas hidráulicas. Ideal para ingenieros, instaladores y proyectistas.">
 	<link rel="canonical" href="https://easyvalve.arcsl.com">
-
-	<!-- Open Graph -->
 	<meta property="og:title" content="Easy Valve – Cálculo de válvulas hidráulicas de forma rápida y precisa">
 	<meta property="og:description" content="Herramienta profesional para el cálculo de Kvs, pérdida de carga y selección de válvulas. Incluye tabla comparativa de modelos.">
 	<meta property="og:url" content="https://easyvalve.arcsl.com">
@@ -18,101 +17,96 @@
 
 	<!-- SEO -->
 	<meta name="robots" content="index, follow">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<script src="valvulas.js"></script>
+	<script src="index.js" defer></script>
 
 	<link rel="icon" type="image/png" href="ARClogo.png">
 	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 	<link rel="stylesheet" href="index.css">
 
-	<script src="valvulas.js"></script>
-	<script src="index.js" defer></script>
-
 </head>
 
-<body class="w3-padding-large">
+<body class="w3-container">
 
-	<!-- Sección 1: Calcular Kvs -->
-	<div class="w3-card w3-padding w3-margin-bottom section">
-		<h3>1. Calcular Kvs</h3>
 
-		<div class="w3-margin-bottom">
-			<label>Caudal (m³/h):</label>
-			<input id="caudalInput" class="w3-input w3-border input" type="number">
+	<div class="w3-center">
+
+<div style="display: flex; align-items: center; justify-content: center; margin-top: 25px;">
+  <a href="https://www.arcsl.com">
+    <img src="./images/ARClogo.png" alt="Logotipo" width="100" height="100" class="w3-margin-right w3-margin-top" style="display: inline-block;">
+  </a>
+  <h1 class="w3-margin-left custom-text" style="display: inline-block;">EASY VALVE</h1>
+</div>
+
+		<!-- Sección 1: Calcular -->
+		<div class="w3-card w3-padding w3-row-padding w3-margin-bottom" style="width: 800px; margin-top: 25px;">
+			<h3>1.- Calcular</h3>
+
+			<div class="w3-row-padding">
+
+				<div class="w3-col l4 m4 s12 w3-margin-top w3-margin-bottom w3-center">
+					<label><input type="radio" name="selecCalculo" class="w3-radio w3-margin-right" value="q">Q (m³/h):</label>
+					<input id="caudalInput" class="w3-input w3-border input w3-margin-top" type="number" min="1" step="1" style="margin: auto;">
+				</div>
+
+				<div class="w3-col l4 m4 s12 w3-margin-top w3-margin-bottom w3-center">
+					<label><input type="radio" name="selecCalculo" class="w3-radio w3-margin-right" value="dp">ΔP (m.c.a):</label>
+					<input id="perdidaInput" class="w3-input w3-border input w3-margin-top" type="number" min="1" step="1" style="margin: auto;">
+				</div>
+
+				<div class="w3-col l4 m4 s12 w3-margin-top w3-margin-bottom w3-center">
+					<label><input type="radio" name="selecCalculo" class="w3-radio w3-margin-right" value="kvs">Kvs:</label=>
+						<input id="kvsInput" class="w3-input w3-border input w3-margin-top" type="number" min="1" step="1" style="margin: auto;">
+				</div>
+
+			</div>
 		</div>
 
-		<div class="w3-margin-bottom">
-			<label>Pérdida de carga (m.c.a):</label>
-			<input id="perdidaInput" class="w3-input w3-border input" type="number">
-		</div>
 
-		<button onclick="calcularKvs()" class="w3-button w3-blue button">Calcular Kvs</button>
+		<!-- Sección 2: Seleccionar tipo de válvula -->
+		<div class="w3-card w3-padding w3-row-padding w3-margin-bottom" style="width: 800px; margin-top: 25px;">
 
-		<div class="w3-margin-top">
-			<strong>Kvs calculado:</strong> <span id="resultadoKvs"></span>
-		</div>
+			<h3>2. Tipo de Válvula</h3>
 
-		<div class="w3-margin-top">
-			<label>Tipo de válvula:</label>
-			<select id="selectorTipo" class="w3-select input" onchange="actualizarSubtipo()"></select>
-		</div>
+			<div class="w3-col l6">
+				<label>Tipo de válvula:</label>
+				<select id="selectorTipo" class="w3-select input"></select>
+			</div>
 
-		<div class="w3-margin-top">
-			<label>Subtipo:</label>
-			<select id="selectorSubtipo" class="w3-select input" onchange="onSubtipoChange()"></select>
-		</div>
+			<div class="w3-col l6">
+				<label>Subtipo:</label>
+				<select id="selectorSubtipo" class="w3-select input"></select>
+			</div>
 
-		<table class="w3-table w3-bordered w3-margin-top">
-			<thead>
-				<tr class="w3-light-grey" id="cabeceratabla">
-					<th><label>Modelo</label></th>
-					<th><label>kVs</label></th>
-					<th><label>Pérdida carga (m.c.a)</label></th>
-					<th><label>Autoridad</label></th>
-				</tr>
-			</thead>
-			<tbody id="tablaSugerenciasBody"></tbody>
-		</table>
-	</div>
-
-	<!-- Sección 2: Calcular pérdida de carga -->
-	<div class="w3-card w3-padding w3-margin-bottom section">
-		<h3>2. Calcular pérdida de carga</h3>
-
-		<div class="w3-margin-bottom">
-			<label>Caudal (m³/h):</label>
-			<input id="caudalPerdidaInput" class="w3-input w3-border input" type="number">
-		</div>
-
-		<div class="w3-margin-bottom">
-			<label>Kvs:</label>
-			<input id="kvsPerdidaInput" class="w3-input w3-border input" type="number">
-		</div>
-
-		<button onclick="calcularPerdida()" class="w3-button w3-blue button">Calcular Pérdida</button>
-
-		<div class="w3-margin-top">
-			<strong>Pérdida de carga:</strong> <span id="resultadoPerdida"></span>
-		</div>
-	</div>
-
-	<!-- Sección 3: Calcular caudal -->
-	<div class="w3-card w3-padding section">
-		<h3>3. Calcular caudal</h3>
-
-		<div class="w3-margin-bottom">
-			<label>Pérdida de carga (m.c.a):</label>
-			<input id="perdidaCaudalInput" class="w3-input w3-border input" type="number">
-		</div>
-
-		<div class="w3-margin-bottom">
-			<label>Kvs:</label>
-			<input id="kvsCaudalInput" class="w3-input w3-border input" type="number">
-		</div>
-
-		<button onclick="calcularCaudal()" class="w3-button w3-blue button">Calcular Caudal</button>
-
-		<div class="w3-margin-top">
-			<strong>Caudal:</strong> <span id="resultadoCaudal"></span>
+			<div class="w3-col l12">
+				<table class="w3-table w3-bordered w3-margin-top">
+					<thead>
+						<tr class="w3-light-grey" id="cabeceratabla">
+							<th><label>Modelo</label></th>
+							<th><label>ΔP (m.c.a)</label></th>
+							<th><label>Autoridad</label></th>
+						</tr>
+					</thead>
+					<tbody id="tablaSugerenciasBody">
+						<tr>
+							<td><label>-</label></td>
+							<td><label>-</label></td>
+							<td><label>-</label></td>
+						</tr>
+						<tr>
+							<td><label>-</label></td>
+							<td><label>-</label></td>
+							<td><label>-</label></td>
+						</tr>
+						<tr>
+							<td><label>-</label></td>
+							<td><label>-</label></td>
+							<td><label>-</label></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
 		</div>
 	</div>
 

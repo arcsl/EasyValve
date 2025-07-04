@@ -1,23 +1,50 @@
-.input,
-.button {
+/* ---------- GENERALES ---------- */
+
+body {
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+.custom-container {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -30%);
+    text-align: center;
+}
+
+.custom-text {
+    font-size: 6rem;
+}
+
+.custom-button {
+    width: 150px;
+    height: 50px;
+    font-size: 1.2rem;
+}
+
+.input {
     width: 150px;
     height: 50px;
 }
 
-.section {
-    margin-bottom: 40px;
+select {
+    background-color: transparent !important;
 }
 
-table {
-    width: 1000px !important;
+.w3-card {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+select {
+    padding-left: 10px !important;
 }
 
 #cabeceratabla label {
     width: 200px !important;
     display: inline-block;
-}
-
-th,
-td {
-    text-align: center;
 }
