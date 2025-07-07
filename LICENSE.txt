@@ -1,0 +1,28 @@
+Business Source License 1.1
+
+Parameters
+
+Licensor: ARC S.L.  
+Licensed Work: Easy Valve – Valve sizing and selection tool for HVAC hydraulic systems with Siemens model suggestions and technical documentation links  
+Additional Use Grant: Internal business use only. Redistribution or modification is not permitted without explicit permission.  
+Change Date: 2030-01-01  
+Change License: GNU General Public License v3.0 (or a later version at the Licensor’s discretion)
+
+Terms
+
+The Licensor hereby grants you the right to use, copy, and deploy the Licensed Work for non-commercial and internal business purposes only, subject to the following conditions:
+
+1. You may not modify, adapt, or create derivative works based on the Licensed Work.  
+2. You may not redistribute the Licensed Work, in whole or in part.  
+3. You may use the Licensed Work only for internal use, and not for providing services or products to third parties, unless expressly authorized by the Licensor.  
+4. The Licensed Work will automatically become available under the Change License on the Change Date, unless the Licensor specifies otherwise.  
+5. The Licensed Work is provided “as is,” without any warranty, express or implied.  
+
+To inquire about commercial use, redistribution, or licensing beyond these terms, please contact:
+info@arcsl.com  
+https://easyvalve.arcsl.com
+
+---
+
+Copyright (c) 2025 ARC S.L.  
+All rights reserved.
