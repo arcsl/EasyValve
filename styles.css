@@ -58,3 +58,10 @@ a {
     justify-content: center;
     padding: 0;
 }
+
+/* Reglas solo para impresión */
+@media print {
+    .no-imprimir {
+    display: none !important; /* Oculta el elemento al imprimir */
+    }
+}
