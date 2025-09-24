@@ -3,6 +3,7 @@ const perdidaInput = document.getElementById("perdidaInput");
 const kvsInput = document.getElementById("kvsInput");
 const selectorTipo = document.getElementById("selectorTipo");
 const selectorSubtipo = document.getElementById("selectorSubtipo");
+const selectorOpciones = document.getElementById("selectorOpciones");
 const tabla = document.getElementById("tablaSugerenciasBody");
 
 const calculoInputs = [caudalInput, perdidaInput, kvsInput];
@@ -19,17 +20,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
 	document.title = "Easy Valve";
 
-	selectorTipo.innerHTML = Object.keys(valvulas)
-		.map(tipo => `<option value="${tipo}">${tipo}</option>`)
-		.join("");
+	selectorTipo.innerHTML = Object.keys(valvulas).map(tipo => `<option value="${tipo}">${tipo}</option>`).join("");
 	actualizarSubtipo();
 
+	calcular();
 	calculoInputs.forEach(el => el.addEventListener('change', () => {
 		calcular();
 	}));
 
 	selectorTipo.addEventListener('change', actualizarSubtipo);
-	selectorSubtipo.addEventListener('change', sugerirValvulas);
+	selectorSubtipo.addEventListener('change', actualizarOpciones);
+	selectorOpciones.addEventListener('change', sugerirValvulas);
 
 	document.querySelectorAll('input[name="selecCalculo"]').forEach(radio => {
 		radio.addEventListener('change', event => {
@@ -52,30 +53,10 @@ document.addEventListener("DOMContentLoaded", () => {
 	radioCalculo.checked = true;
 	radioCalculo.dispatchEvent(new Event('change', { bubbles: true }));
 
+
 });
 
-function actualizarSubtipo() {
-
-	const tipo = selectorTipo.value;
-
-	selectorSubtipo.innerHTML = "";
-
-	if (!valvulas[tipo]) return;
-
-	const subtipos = Object.keys(valvulas[tipo]);
-	subtipos.forEach(sub => {
-		const option = document.createElement("option");
-		option.value = sub;
-		option.textContent = sub;
-		selectorSubtipo.appendChild(option);
-	});
-
-	sugerirValvulas();
-}
-
 function calcular() {
-
-	console.log("calcular");
 
 	caudal = parseFloat(caudalInput.value);
 	perdida = parseFloat(perdidaInput.value);
@@ -122,16 +103,57 @@ function calcularKvs() {
 	return true;
 }
 
+function actualizarSubtipo() {
+
+	const tipo = selectorTipo.value;
+
+	selectorSubtipo.innerHTML = "";
+
+	if (!valvulas[tipo]) return;
+
+	const subtipos = Object.keys(valvulas[tipo]);
+	subtipos.forEach(sub => {
+		const option = document.createElement("option");
+		option.value = sub;
+		option.textContent = sub;
+		selectorSubtipo.appendChild(option);
+	});
+
+	actualizarOpciones();
+}
+
+function actualizarOpciones() {
+
+	const tipo = selectorTipo.value;
+	const subtipo = selectorSubtipo.value;
+
+	selectorOpciones.innerHTML = "";
+
+	if (!valvulas[tipo][subtipo]) return;
+
+	const opciones = Object.keys(valvulas[tipo][subtipo]);
+	opciones.forEach(opc => {
+		const option = document.createElement("option");
+		option.value = opc;
+		option.textContent = opc;
+		selectorOpciones.appendChild(option);
+	});
+
+	sugerirValvulas();
+}
+
 function sugerirValvulas() {
 
 	const tipo = selectorTipo.value;
 	const subtipo = selectorSubtipo.value;
+	const opcion = selectorOpciones.value;
+
 	if (!kvs || !caudal || !perdida) return;
-	if (!valvulas[tipo] || !valvulas[tipo][subtipo]) return;
+	if (!valvulas[tipo] || !valvulas[tipo][subtipo] || !valvulas[tipo][subtipo][opcion]) return;
 
 	tabla.innerHTML = "";
 
-	const lista = [...valvulas[tipo][subtipo]].sort((a, b) => a.kvs - b.kvs);
+	const lista = [...valvulas[tipo][subtipo][opcion]].sort((a, b) => a.kvs - b.kvs);
 
 	// Buscar válvula más cercana
 	let seleccionada = lista.reduce((a, b) =>
