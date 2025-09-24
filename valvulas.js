@@ -1,6 +1,6 @@
 const valvulas = {
     "3 Vías": {
-        "Asiento Roscadas": [
+        "Elemento terminales": [
             { modelo: "VXP45.10-1",     kvs: 1,    urlAppend:"BPZ%3aVXP45.10-1",    },
             { modelo: "VXP45.10-1.6",   kvs: 1.6,  urlAppend:"BPZ%3aVXP45.10-1.6",  },
             { modelo: "VXP45.15-2.5",   kvs: 2.5,  urlAppend:"BPZ%3aVXP45.15-2.5",  },
@@ -9,6 +9,16 @@ const valvulas = {
             { modelo: "VXP45.25-10",    kvs: 10,   urlAppend:"BPZ%3aVXP45.25-10",   },
             { modelo: "VXP45.32-16",    kvs: 16,   urlAppend:"BPZ%3aVXP45.32-16",   },
             { modelo: "VXP45.40-25",    kvs: 25,   urlAppend:"BPZ%3aVXP45.40-25",   },
+        ],
+        "Asiento Roscadas": [
+            { modelo: "VXG44.15-1",     kvs: 1,    urlAppend:"BPZ%3aVXG44.15-1",    },
+            { modelo: "VXG44.15-1.6",   kvs: 1.6,  urlAppend:"BPZ%3aVXG44.15-1.6",  },
+            { modelo: "VXG44.15-2.5",   kvs: 2.5,  urlAppend:"BPZ%3aVXG44.15-2.5",  },
+            { modelo: "VXG44.15-4",     kvs: 4,    urlAppend:"BPZ%3aVXG44.15-4",    },
+            { modelo: "VXG44.20-6.3",   kvs: 6.3,  urlAppend:"BPZ%3aVXG44.20-6.3",  },
+            { modelo: "VXG44.25-10",    kvs: 10,   urlAppend:"BPZ%3aVXG44.25-10",   },
+            { modelo: "VXG44.32-16",    kvs: 16,   urlAppend:"BPZ%3aVXG44.32-16",   },
+            { modelo: "VXG44.40-25",    kvs: 25,   urlAppend:"BPZ%3aVXG44.40-25",   },
         ],
         "Asiento Bridas": [
             { modelo: "VXF32.15-4",     kvs: 4,    urlAppend:"S55202-V115",         },
@@ -50,7 +60,7 @@ const valvulas = {
         ],
     },
     "2 Vías": {
-        "Asiento Roscadas": [
+        "Elemento terminales": [
             { modelo: "VVP45.10-1",     kvs: 1,    urlAppend:"BPZ%3aVVP45.10-1",    },
             { modelo: "VVP45.10-1.6",   kvs: 1.6,  urlAppend:"BPZ%3aVVP45.10-1.6",  },
             { modelo: "VVP45.15-2.5",   kvs: 2.5,  urlAppend:"BPZ%3aVVP45.15-2.5",  },
@@ -60,6 +70,16 @@ const valvulas = {
             { modelo: "VVP45.32-16",    kvs: 16,   urlAppend:"BPZ%3aVVP45.32-16",   },
             { modelo: "VVP45.40-25",    kvs: 25,   urlAppend:"BPZ%3aVVP45.40-25",   },
         ],
+        "Asiento Roscadas": [
+            { modelo: "VVG44.15-1",     kvs: 1,    urlAppend:"BPZ%3aVVG44.15-1",    },
+            { modelo: "VVG44.15-1.6",   kvs: 1.6,  urlAppend:"BPZ%3aVVG44.15-1.6",  },
+            { modelo: "VVG44.15-2.5",   kvs: 2.5,  urlAppend:"BPZ%3aVVG44.15-2.5",  },
+            { modelo: "VVG44.15-4",     kvs: 4,    urlAppend:"BPZ%3aVVG44.15-4",    },
+            { modelo: "VVG44.20-6.3",   kvs: 6.3,  urlAppend:"BPZ%3aVVG44.20-6.3",  },
+            { modelo: "VVG44.25-10",    kvs: 10,   urlAppend:"BPZ%3aVVG44.25-10",   },
+            { modelo: "VVG44.32-16",    kvs: 16,   urlAppend:"BPZ%3aVVG44.32-16",   },
+            { modelo: "VVG44.40-25",    kvs: 25,   urlAppend:"BPZ%3aVVG44.40-25",   },
+        ],        
         "Asiento Bridas": [
             { modelo: "VVF32.15-4",     kvs: 4,    urlAppend:"S55202-V102",         },
             { modelo: "VVF32.25-6.3",   kvs: 6.3,  urlAppend:"S55202-V103",         },
